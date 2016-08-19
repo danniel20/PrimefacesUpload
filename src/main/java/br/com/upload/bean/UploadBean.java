@@ -1,7 +1,8 @@
 package br.com.upload.bean;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 
@@ -72,11 +74,10 @@ public class UploadBean implements Serializable{
 
 		File arquivo = new File(diretorioTemp, this.nomeDaImagem);
 		
-		FileOutputStream fos = new FileOutputStream(arquivo);
-		fos.write(imagem);
-		fos.flush();
-		fos.close();
-			
+		ByteArrayInputStream img = new ByteArrayInputStream(imagem);
+		BufferedImage bufferedImage = ImageIO.read(img);
+		ImageIO.write(bufferedImage, arquivo.getName().substring(arquivo.getName().lastIndexOf(".")+1), arquivo);
+		
 		this.imagens.add(arquivo.getName());
 	}
 
