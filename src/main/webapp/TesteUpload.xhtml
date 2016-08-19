@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ 		   xmlns:h="http://xmlns.jcp.org/jsf/html"
+          xmlns:f="http://xmlns.jcp.org/jsf/core"
+      	  xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Teste Upload</title>
+<style>
+	body{
+		font-size: 12px;
+		font-family: Arial, Helvetica, sans-serif;
+		font-weight: nomal;
+	}
+</style>
+</h:head>
+<h:body>
+	
+	<h:form id="frmUpload" enctype="multipart/form-data">
+		<p:messages autoUpdate="true"/>
+		
+		<p:fileUpload allowTypes="/(\.|\/)(jpe?g|png)$/" cancelLabel="Cancelar"
+                    label="Escolha" invalidFileMessage="Extensão de arquivo não suportada"
+                    invalidSizeMessage="Imagem excedeu o tamanho permitido" mode="advanced" multiple="false" 
+                    showButtons="true" sizeLimit="2097152" uploadLabel="Enviar"
+                    fileUploadListener="#{uploadBean.doUpload}"  update="@form"/>
+		
+		 <p:commandButton id="btnSalvar"  value="Salvar" action="#{uploadBean.salvar}"  process="@form"  update="@all" disabled="#{uploadBean.imagem != null ? false : true}"/>			
+	</h:form>
+		
+	<p:spacer />	
+	
+	 <p:galleria id="galeria" value="#{uploadBean.imagens}" var="img" panelWidth="500" panelHeight="313" showCaption="true"  rendered="#{uploadBean.imagens.size() > 0}">          					
+  			 <p:graphicImage value="/temp/#{img}" alt="Image Description for #{img}" title="#{img}" cache="false" />
+	</p:galleria>
+	
+</h:body>
+</html>
